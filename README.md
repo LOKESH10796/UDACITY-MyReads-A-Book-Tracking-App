@@ -3,6 +3,7 @@
 To get started developing right away:
 
 * install all project dependencies with `npm install`
+* you will need `npm install react-router-dom`
 * start the development server with `npm start`
 
 ## What You're Getting
