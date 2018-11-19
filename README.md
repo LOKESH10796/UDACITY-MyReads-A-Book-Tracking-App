@@ -27,6 +27,15 @@ To get started developing right away:
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
 ```
+## Short Description about the app
+
+A book shelf web app using the React javascript library.
+It allows users to search for books and assign them to shelves depending whether they are:
+1.Currently reading
+2.Want to read
+3.READ (Finished reading the book)
+4.NONE (REMOVE book from shelf)
+
 ## Important
 The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
 
