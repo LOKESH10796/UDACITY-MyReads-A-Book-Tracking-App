@@ -13,21 +13,6 @@ class SearchBook extends Component {
     };
   }
 
-  componentDidMount() {
-    BooksAPI.getAll().then(retval => {
-      this.setState({ books: retval });
-    });
-  }
-
-  updateBookShelf = (books, shelf) => {
-    BooksAPI.update(books, shelf).then(retval => {
-      books.shelf = shelf;
-      this.setState(state => ({
-        books: state.books.filter(by => by.id !== books.id).concat([books])
-      }));
-    });
-  };
-
   updateQuery = event => {
     this.setState({ query: event.target.value }, this.searchBooks);
   };
@@ -75,7 +60,7 @@ class SearchBook extends Component {
             {this.state.searchResults.length > 0 &&
               this.state.searchResults.map((books) => (
                 <Books
-                  updateBookShelf={this.updateBookShelf}
+                  updateBookShelf={this.props.updateBookShelf}
                   books={books}
                   key={books.id}
                 />

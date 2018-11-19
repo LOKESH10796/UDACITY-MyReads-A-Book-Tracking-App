@@ -1,30 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import * as BooksAPI from "../BooksAPI";
 import Shelf from "./Shelf";
 
 class MainPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      books: []
-    };
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll().then(retval => {
-      this.setState({ books: retval });
-    });
-  }
-
-  updateBookShelf = (books, shelf) => {
-    BooksAPI.update(books, shelf).then(retval => {
-      books.shelf = shelf;
-      this.setState(state => ({
-        books: state.books.filter(b => b.id !== books.id).concat([books])
-      }));
-    });
-  };
 
   render() {
     return (
@@ -35,21 +13,21 @@ class MainPage extends Component {
         <div className="list-books-content">
           <div>
             <Shelf
-              updateBookShelf={this.updateBookShelf}
+              updateBookShelf={this.props.updateBookShelf}
               name="Currently Reading"
-              books={this.state.books.filter(
+              books={this.props.books.filter(
                 by => by.shelf === "currentlyReading"
               )}
             />
             <Shelf
-              updateBookShelf={this.updateBookShelf}
+              updateBookShelf={this.props.updateBookShelf}
               name="Want to Read"
-              books={this.state.books.filter(by => by.shelf === "wantToRead")}
+              books={this.props.books.filter(by => by.shelf === "wantToRead")}
             />
             <Shelf
-              updateBookShelf={this.updateBookShelf}
+              updateBookShelf={this.props.updateBookShelf}
               name="Read"
-              books={this.state.books.filter(by => by.shelf === "read")}
+              books={this.props.books.filter(by => by.shelf === "read")}
             />
           </div>
         </div>
