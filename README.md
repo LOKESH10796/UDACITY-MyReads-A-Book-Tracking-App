@@ -1,44 +1,53 @@
-# MyReads Project
+# Udacity Myreads A Book Tracking App
 
-To get started developing right away:
+Book tracking application built with React as part of the Udacity React Nanodegree.
 
-* install all project dependencies with `npm install`
-* you will need `npm install react-router-dom`
-* start the development server with `npm start`
+## Features
 
-## What You're Getting
-```bash
-├── CONTRIBUTING.md
-├── README.md - This file.
-├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for you to use with your app.
-├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
-├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
-└── src
-    ├── App.css # Styles for your app. Feel free to customize this as you desire.
-    ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # Global styles. You probably won't need to change anything here.
-    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
-```
-## Short Description about the app
+- React frontend
+- Bookshelf categorization
+- Search functionality
+- Move books between shelves
 
-A book shelf web app using the React javascript library.
-It allows users to search for books and assign them to shelves depending whether they are:
-1.Currently reading
-2.Want to read
-3.READ (Finished reading the book)
-4.NONE (REMOVE book from shelf)
+## Badges
 
-## Important
-The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
+![GitHub Repo Stars](https://img.shields.io/github/stars/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App?style=for-the-badge)
+![GitHub Forks](https://img.shields.io/github/forks/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App?style=for-the-badge)
+![GitHub Issues](https://img.shields.io/github/issues/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App?style=for-the-badge)
+![GitHub License](https://img.shields.io/github/license/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App?style=for-the-badge)
 
-## Create React App
+## Installation
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).# UDACITY-MyReads-A-Book-Tracking-App
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd UDACITY-MyReads-A-Book-Tracking-App
+   ```
+3. Install dependencies (if applicable):
+   ```bash
+   # For Node.js projects
+   npm install
+   # For Python projects
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+Add usage instructions here.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+Lokesh Gounder - [@lokeshgounder](https://twitter.com/lokeshgounder) - lokesh@example.com
+
+Project Link: [https://github.com/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App](https://github.com/LOKESH10796/UDACITY-MyReads-A-Book-Tracking-App)
