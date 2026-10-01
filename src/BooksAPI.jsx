@@ -30,7 +30,7 @@ export const update = async (book, shelf) => {
 
 export const search = async (query) => {
   try {
-    const res = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+    const res = await fetch('/api/nvidia/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
