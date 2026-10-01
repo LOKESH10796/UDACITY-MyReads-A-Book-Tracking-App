@@ -1,44 +1,49 @@
 
-const api = "https://reactnd-books-api.udacity.com"
+const CACHE_KEY = "myreads_local_shelves";
 
+// Helper to get local data
+const getLocalData = () => {
+  const data = localStorage.getItem(CACHE_KEY);
+  return data ? JSON.parse(data) : {};
+};
 
-// Generate a unique token for storing your bookshelf data on the backend server.
-let token = localStorage.token
-if (!token)
-  token = localStorage.token = Math.random().toString(36).substr(-8)
+// Helper to save local data
+const setLocalData = (data) => {
+  localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+};
 
-const headers = {
-  'Accept': 'application/json',
-  'Authorization': token
-}
+export const getAll = async () => {
+  const data = getLocalData();
+  return Object.values(data);
+};
 
-export const get = (bookId) =>
-  fetch(`${api}/books/${bookId}`, { headers })
-    .then(res => res.json())
-    .then(data => data.book)
+export const update = async (book, shelf) => {
+  const data = getLocalData();
+  if (shelf === "none") {
+    delete data[book.id];
+  } else {
+    data[book.id] = { ...book, shelf };
+  }
+  setLocalData(data);
+  return data;
+};
 
-export const getAll = () =>
-  fetch(`${api}/books`, { headers })
-    .then(res => res.json())
-    .then(data => data.books)
-
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
-    method: 'PUT',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ shelf })
-  }).then(res => res.json())
-
-export const search = (query) =>
-  fetch(`${api}/search`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query })
-  }).then(res => res.json())
-    .then(data => data.books)
+export const search = async (query) => {
+  try {
+    const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=20`);
+    const json = await res.json();
+    if (!json.items) return { error: "empty" };
+    
+    return json.items.map(item => ({
+      id: item.id,
+      title: item.volumeInfo.title,
+      authors: item.volumeInfo.authors || ["Author Unlisted"],
+      imageLinks: item.volumeInfo.imageLinks 
+        ? { thumbnail: item.volumeInfo.imageLinks.thumbnail.replace("http:", "https:") } 
+        : null,
+      shelf: "none"
+    }));
+  } catch (err) {
+    return { error: err.message };
+  }
+};
