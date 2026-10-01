@@ -30,19 +30,51 @@ export const update = async (book, shelf) => {
 
 export const search = async (query) => {
   try {
-    const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=20`);
-    const json = await res.json();
-    if (!json.items) return { error: "empty" };
+    const res = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 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'
+      },
+      body: JSON.stringify({
+        model: 'nvidia/nemotron-4-340b-instruct',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a strict JSON API backend for a library manager. 
+            The user will provide a search query. 
+            You must respond ONLY with a raw JSON array of 10 fictional or real book objects matching the query. No markdown formatting, no backticks, just the JSON array.
+            Format of each object:
+            {
+              "id": "<generate-a-unique-random-string>",
+              "title": "<Book Title>",
+              "authors": ["<Author 1>", "<Author 2>"],
+              "imageLinks": {
+                "thumbnail": "https://loremflickr.com/128/193/book,cover,art?lock=<use-the-same-unique-random-string-here>"
+              },
+              "shelf": "none"
+            }`
+          },
+          {
+            role: 'user',
+            content: `Search query: ${query}`
+          }
+        ],
+        temperature: 0.5,
+        max_tokens: 2000,
+      })
+    });
+
+    const data = await res.json();
+    if (!data.choices || data.choices.length === 0) return { error: "empty" };
     
-    return json.items.map(item => ({
-      id: item.id,
-      title: item.volumeInfo.title,
-      authors: item.volumeInfo.authors || ["Author Unlisted"],
-      imageLinks: item.volumeInfo.imageLinks 
-        ? { thumbnail: item.volumeInfo.imageLinks.thumbnail.replace("http:", "https:") } 
-        : null,
-      shelf: "none"
-    }));
+    // Extract JSON from LLM response (in case it added backticks despite instructions)
+    let content = data.choices[0].message.content;
+    content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+    
+    const parsedBooks = JSON.parse(content);
+    return parsedBooks;
+    
   } catch (err) {
     return { error: err.message };
   }
