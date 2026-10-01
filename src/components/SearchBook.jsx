@@ -6,34 +6,42 @@ import Books from "./Books";
 function SearchBook({ books, updateBookShelf }) {
   const [searchResults, setSearchResults] = useState([]);
   const [query, setQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     let active = true;
 
     if (query.trim() === "") {
       setSearchResults([]);
+      setIsSearching(false);
       return;
     }
 
-    BooksAPI.search(query.trim()).then(retval => {
-      if (!active) return;
-      if (retval.error) {
-        setSearchResults([]);
-      } else {
-        retval.forEach(searchedBook => {
-          let bookFound = books.find(b => b.id === searchedBook.id);
-          if (bookFound) {
-            searchedBook.shelf = bookFound.shelf;
-          } else {
-            searchedBook.shelf = "none";
-          }
-        });
-        setSearchResults(retval);
-      }
-    });
+    setIsSearching(true);
+    // Debounce the API call to prevent 429 Too Many Requests
+    const delayDebounceFn = setTimeout(() => {
+      BooksAPI.search(query.trim()).then(retval => {
+        if (!active) return;
+        setIsSearching(false);
+        if (retval.error) {
+          setSearchResults([]);
+        } else {
+          retval.forEach(searchedBook => {
+            let bookFound = books.find(b => b.id === searchedBook.id);
+            if (bookFound) {
+              searchedBook.shelf = bookFound.shelf;
+            } else {
+              searchedBook.shelf = "none";
+            }
+          });
+          setSearchResults(retval);
+        }
+      });
+    }, 600); // 600ms delay
 
     return () => {
       active = false;
+      clearTimeout(delayDebounceFn);
     };
   }, [query, books]);
 
@@ -61,7 +69,12 @@ function SearchBook({ books, updateBookShelf }) {
         </div>
       </div>
       <div className="flex-1 max-w-7xl mx-auto px-4 py-10 w-full">
-        {searchResults.length === 0 && query.trim() !== "" ? (
+        {isSearching ? (
+          <div className="text-center mt-20">
+            <div className="inline-block w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+            <h3 className="text-2xl font-bold text-slate-300">Searching global library...</h3>
+          </div>
+        ) : searchResults.length === 0 && query.trim() !== "" ? (
           <div className="text-center mt-20">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-800 border border-white/5 mb-6 shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
