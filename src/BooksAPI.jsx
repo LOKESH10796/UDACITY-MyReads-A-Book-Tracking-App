@@ -37,7 +37,7 @@ export const search = async (query) => {
         'Authorization': 'Bearer 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'
       },
       body: JSON.stringify({
-        model: 'nvidia/nemotron-4-340b-instruct',
+        model: 'nvidia/nemotron-3-super-120b-a12b',
         messages: [
           {
             role: 'system',
