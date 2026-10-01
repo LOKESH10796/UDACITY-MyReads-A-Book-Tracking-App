@@ -49,9 +49,6 @@ export const search = async (query) => {
               "id": "<generate-a-unique-random-string>",
               "title": "<Book Title>",
               "authors": ["<Author 1>", "<Author 2>"],
-              "imageLinks": {
-                "thumbnail": "https://loremflickr.com/128/193/book,cover,art?lock=<use-the-same-unique-random-string-here>"
-              },
               "shelf": "none"
             }`
           },
