@@ -31,7 +31,8 @@ function SearchBook({ books, updateBookShelf }) {
             if (!searchedBook.imageLinks) searchedBook.imageLinks = {};
             // Generate a random ID if LLM didn't provide one
             if (!searchedBook.id || searchedBook.id.includes('<')) searchedBook.id = Math.random().toString(36).substring(2, 9);
-            searchedBook.imageLinks.thumbnail = `https://loremflickr.com/128/193/book,cover,art?lock=${searchedBook.id}`;
+            // Use Pollinations AI to generate a highly context-aware book cover on the fly
+            searchedBook.imageLinks.thumbnail = `https://image.pollinations.ai/prompt/${encodeURIComponent(searchedBook.title + " modern book cover art")}?width=256&height=386&nologo=true&seed=${searchedBook.id}`;
             
             let bookFound = books.find(b => b.id === searchedBook.id);
             if (bookFound) {

@@ -2,12 +2,19 @@ import React from 'react'
 
 function Books({ books, updateBookShelf }) {
   const { imageLinks, shelf, title, authors } = books;
+  
+  // Ensure we always use Pollinations AI for all covers (fixes broken loremflickr/picsum links in old localStorage)
+  let thumbnail = imageLinks?.thumbnail || "";
+  if (!thumbnail || thumbnail.includes('loremflickr') || thumbnail.includes('picsum')) {
+    thumbnail = `https://image.pollinations.ai/prompt/${encodeURIComponent(title + " modern book cover art")}?width=256&height=386&nologo=true&seed=${books.id || 123}`;
+  }
+
   return (
     <li className="w-44 flex flex-col group">
       <div className="relative h-64 rounded-xl shadow-lg overflow-hidden transition-all duration-300 group-hover:-translate-y-3 group-hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.3)] bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/5">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" 
-          style={{ backgroundImage: `url("${imageLinks ? imageLinks.thumbnail : "https://via.placeholder.com/128x193.png?text=No+Cover"}")`}}
+          style={{ backgroundImage: `url("${thumbnail}")`}}
         ></div>
         
         {/* Gradient Overlay on hover */}
